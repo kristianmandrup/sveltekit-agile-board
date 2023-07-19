@@ -31,6 +31,8 @@
 		return acc;
 	}, {});
 
+	console.log({ tasksByColumn });
+
 	const columns = ['Todo', 'In Progress', 'Done'];
 </script>
 
@@ -38,10 +40,8 @@
 	<div class="tasks">
 		{#each columns as column}
 			<div class="column">
-				{#each tasksByColumn[column] as tasks}
-					{#each tasks as task}
-						<Task {task} />
-					{/each}
+				{#each tasksByColumn[column] as task}
+					<Task {task} />
 				{/each}
 			</div>
 		{/each}

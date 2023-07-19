@@ -1,5 +1,5 @@
-<script>
-	const { default: Board } = require('$lib/Board.svelte');
+<script lang="ts">
+	import Board from '$lib/Board.svelte';
 </script>
 
 <h1>Welcome to SvelteKit</h1>
