@@ -1,7 +1,8 @@
 <script lang="ts">
 	import Task from './components/Task.svelte';
+	import type { ITask } from './types/tasks';
 
-	let tasks: any[] = [
+	let tasks: ITask[] = [
 		{
 			title: 'Add new feature',
 			description: 'This is a new feature that we need to add to the product.',
@@ -25,11 +26,11 @@
 
 	// turns the list into a map
 	// test: [{task 1 }, { task 2}]
-	const tasksByColumn = tasks.reduce((acc, task) => {
+	const tasksByColumn: Record<string, ITask[]> = tasks.reduce((acc, task: ITask) => {
 		acc[task.type] = acc[task.type] || [];
 		acc[task.type].push(task);
 		return acc;
-	}, {});
+	}, {} as Record<string, ITask[]>);
 
 	console.log({ tasksByColumn });
 

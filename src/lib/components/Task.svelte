@@ -1,5 +1,7 @@
 <script lang="ts">
-	let task: any;
+	import type { ITask } from '$lib/types/tasks';
+
+	let task: ITask;
 </script>
 
 <div class="task">
