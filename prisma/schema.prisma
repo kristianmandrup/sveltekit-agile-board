@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // provider = "postgresql"
+  // url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.sqlite"
+}
+
+model AuthUser {
+  id           String        @id @unique
+  name         String
+  username     String        @unique
+  auth_session AuthSession[]
+  auth_key     AuthKey[]
+
+  @@map("auth_user")
+}
+
+model AuthSession {
+  id             String   @id @unique
+  user_id        String
+  active_expires BigInt
+  idle_expires   BigInt
+  auth_user      AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("auth_session")
+}
+
+model AuthKey {
+  id              String   @id @unique
+  hashed_password String?
+  user_id         String
+  primary_key     Boolean
+  expires         BigInt?
+  auth_user       AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("auth_key")
+}
+
+model User {
+  id            String @id @default(uuid())
+  username      String @unique
+  passwordHash  String
+  userAuthToken String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  role   Roles @relation(fields: [roleId], references: [id])
+  roleId Int
+}
+
+model Roles {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  User User[]
+}
+
+model Project {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  motivation  String
+  targetUsers String
+  phase       String
+  teams       Team[]
+}
+
+model Team {
+  id                 Int      @id @default(autoincrement())
+  name               String
+  responsibilityArea String
+  projectId          Int
+  project            Project  @relation(fields: [projectId], references: [id])
+  members            Member[]
+  tasks              Task[]
+}
+
+model Member {
+  id              Int    @id @default(autoincrement())
+  name            String
+  role            String
+  techPreferences String
+  workStyle       String
+  profileImage    String
+  teamId          Int
+  team            Team   @relation(fields: [teamId], references: [id])
+  tasks           Task[]
+}
+
+model Task {
+  id           Int           @id @default(autoincrement())
+  name         String
+  description  String
+  status       String
+  startDate    DateTime
+  endDate      DateTime
+  teamId       Int
+  team         Team          @relation(fields: [teamId], references: [id])
+  assigneeId   Int
+  assignee     Member        @relation(fields: [assigneeId], references: [id])
+  deliverables Deliverable[]
+}
+
+model Deliverable {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  dateCreated DateTime
+  taskId      Int
+  task        Task     @relation(fields: [taskId], references: [id])
+}

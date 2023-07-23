@@ -11,6 +11,7 @@
 		DropdownDivider,
 		Input
 	} from 'flowbite-svelte';
+	import '@picocss/pico';
 	import { goto } from '$app/navigation';
 	import 'iconify-icon';
 
@@ -30,11 +31,11 @@
 	<h1>Welcome to AI Project Management System</h1>
 	<Navbar let:hidden let:toggle>
 		<NavBrand href="/">
-			<img
+			<!-- <img
 				src="/images/flowbite-svelte-icon-logo.svg"
 				class="mr-3 h-6 sm:h-9"
 				alt="GPT-Team Logo"
-			/>
+			/> -->
 			<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
 				GPT-Team
 			</span>
