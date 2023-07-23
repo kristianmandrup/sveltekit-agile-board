@@ -18,7 +18,9 @@ model AuthUser {
   username     String        @unique
   auth_session AuthSession[]
   auth_key     AuthKey[]
-  User         User[]
+  role         Roles         @relation(fields: [roleId], references: [id])
+  roleId       Int
+  projects     Project[]
 
   @@map("auth_user")
 }
@@ -46,31 +48,22 @@ model AuthKey {
   @@map("auth_key")
 }
 
-model User {
-  id         String   @id @default(uuid())
-  user_id    String
-  auth_user  AuthUser @relation(fields: [authUserId], references: [id], onDelete: Cascade)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  role       Roles    @relation(fields: [roleId], references: [id])
-  roleId     Int
-  authUserId String
-}
-
 model Roles {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  User User[]
+  id   Int        @id @default(autoincrement())
+  name String     @unique
+  user AuthUser[]
 }
 
 model Project {
-  id          Int    @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   description String
   motivation  String
   targetUsers String
   phase       String
   teams       Team[]
+  user        AuthUser? @relation(fields: [authUserId], references: [id])
+  authUserId  String?
 }
 
 model Team {
