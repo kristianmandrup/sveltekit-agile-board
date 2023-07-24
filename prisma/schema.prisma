@@ -21,6 +21,7 @@ model AuthUser {
   role         Roles         @relation(fields: [roleId], references: [id])
   roleId       Int
   projects     Project[]
+  UserProfile  UserProfile[]
 
   @@map("auth_user")
 }
@@ -46,6 +47,26 @@ model AuthKey {
 
   @@index([user_id])
   @@map("auth_key")
+}
+
+model Skill {
+  id            Int          @id @default(autoincrement())
+  name          String       @unique
+  description   String
+  UserProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
+  userProfileId Int?
+}
+
+model UserProfile {
+  id              Int      @id @default(autoincrement())
+  user            AuthUser @relation(fields: [authUserId], references: [id])
+  description     String
+  skills          Skill[]
+  member          Member[]
+  techPreferences String
+  workStyle       String
+  profileImage    String
+  authUserId      String
 }
 
 model Roles {
@@ -77,15 +98,14 @@ model Team {
 }
 
 model Member {
-  id              Int    @id @default(autoincrement())
-  name            String
-  role            String
-  techPreferences String
-  workStyle       String
-  profileImage    String
-  teamId          Int
-  team            Team   @relation(fields: [teamId], references: [id])
-  tasks           Task[]
+  id            Int          @id @default(autoincrement())
+  name          String
+  role          String
+  teamId        Int
+  team          Team         @relation(fields: [teamId], references: [id])
+  tasks         Task[]
+  UserProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
+  userProfileId Int?
 }
 
 model Task {
