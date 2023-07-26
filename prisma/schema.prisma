@@ -12,41 +12,38 @@ datasource db {
   url      = "file:./dev.sqlite"
 }
 
-model AuthUser {
-  id           String        @id @unique
-  name         String
-  username     String        @unique
-  auth_session AuthSession[]
-  auth_key     AuthKey[]
-  role         Roles         @relation(fields: [roleId], references: [id])
-  roleId       Int
-  projects     Project[]
-  UserProfile  UserProfile[]
-
-  @@map("auth_user")
+model User {
+  id              String        @id @unique
+  auth_session    Session[]
+  auth_key        Key[]
+  name            String
+  username        String        @unique
+  github_username String        @unique
+  role            Roles         @relation(fields: [roleId], references: [id])
+  roleId          Int
+  projects        Project[]
+  UserProfile     UserProfile[]
 }
 
-model AuthSession {
-  id             String   @id @unique
+model Session {
+  id             String @id @unique
   user_id        String
   active_expires BigInt
   idle_expires   BigInt
-  auth_user      AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  user           User   @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
-  @@map("auth_session")
 }
 
-model AuthKey {
-  id              String   @id @unique
+model Key {
+  id              String  @id @unique
   hashed_password String?
   user_id         String
   primary_key     Boolean
   expires         BigInt?
-  auth_user       AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  user            User    @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
-  @@map("auth_key")
 }
 
 model Skill {
@@ -59,32 +56,36 @@ model Skill {
 
 model UserProfile {
   id              Int      @id @default(autoincrement())
-  user            AuthUser @relation(fields: [authUserId], references: [id])
+  user            User     @relation(fields: [user_id], references: [id])
   description     String
   skills          Skill[]
   member          Member[]
   techPreferences String
   workStyle       String
   profileImage    String
-  authUserId      String
+  user_id         String
+
+  @@index([user_id])
 }
 
 model Roles {
-  id   Int        @id @default(autoincrement())
-  name String     @unique
-  user AuthUser[]
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  user User[]
 }
 
 model Project {
-  id          Int       @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   name        String
   description String
   motivation  String
   targetUsers String
   phase       String
   teams       Team[]
-  user        AuthUser? @relation(fields: [authUserId], references: [id])
-  authUserId  String?
+  user        User?  @relation(fields: [user_id], references: [id])
+  user_id     String
+
+  @@index([user_id])
 }
 
 model Team {
@@ -98,14 +99,15 @@ model Team {
 }
 
 model Member {
-  id            Int          @id @default(autoincrement())
+  id            Int           @id @default(autoincrement())
   name          String
   role          String
   teamId        Int
-  team          Team         @relation(fields: [teamId], references: [id])
+  team          Team          @relation(fields: [teamId], references: [id])
   tasks         Task[]
-  UserProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
+  UserProfile   UserProfile?  @relation(fields: [userProfileId], references: [id])
   userProfileId Int?
+  Deliverable   Deliverable[]
 }
 
 model Task {
@@ -127,6 +129,8 @@ model Deliverable {
   name        String
   description String
   dateCreated DateTime
+  member      Member   @relation(fields: [memberId], references: [id])
   taskId      Int
   task        Task     @relation(fields: [taskId], references: [id])
+  memberId    Int
 }

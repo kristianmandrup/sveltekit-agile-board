@@ -36,7 +36,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@lucia-auth/adapter-prisma": "^2.0.0",
+		"@lucia-auth/adapter-prisma": "^3.0.0",
 		"@lucia-auth/sveltekit": "^0.6.11",
 		"@picocss/pico": "^1.5.10",
 		"@prisma/client": "^4.11.0",
@@ -44,9 +44,8 @@
 		"chart.js": "^4.3.0",
 		"flowbite": "^1.7.0",
 		"flowbite-svelte": "^0.40.1",
-		"i": "^0.3.7",
 		"iconify-icon": "^1.0.8",
-		"lucia-auth": "^1.7.0",
+		"lucia": "^2.0.0",
 		"svelte-chartjs": "^3.1.2",
 		"svelte-headlessui": "^0.0.20"
 	}

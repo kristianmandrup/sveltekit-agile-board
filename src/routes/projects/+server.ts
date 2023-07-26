@@ -3,8 +3,10 @@ import db from '$lib/database';
 import { error } from '@sveltejs/kit';
 // /api/newsletter GET
 
-export async function GET({ url }) {
-	const id = url.searchParams.get('id');
+// see https://codevoweb.com/how-to-build-a-simple-api-in-sveltekit/
+export async function GET({ params, headers, request, url }) {
+	// verify token
+	const id = params.id || url.searchParams.get('id');
 	if (id) {
 		const project = await db.project.findUnique({
 			id
@@ -17,8 +19,8 @@ export async function GET({ url }) {
 
 // /api/newsletter POST
 
-export async function POST(event) {
-	const data = await event.request.formData();
+export async function POST({ request }) {
+	const data = request.formData();
 	const name = data.get('name') as string;
 	const description = data.get('description') as string;
 
