@@ -1,12 +1,12 @@
 import type { Actions, PageServerLoad } from './$types';
-import { prisma } from '$lib/server/prisma';
+import { prismaClient } from '$lib/server/prisma';
 import { error, fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const getTeam = async () => {
-		const team = await prisma.team.findUnique({
+		const team = await prismaClient.team.findUnique({
 			where: {
-				id: Number(params.teamId)
+				id: Number(params.team_id)
 			}
 		});
 		if (!team) {
@@ -28,9 +28,9 @@ export const actions: Actions = {
 		};
 
 		try {
-			await prisma.team.update({
+			await prismaClient.team.update({
 				where: {
-					id: Number(params.teamId)
+					id: Number(params.team_id)
 				},
 				data: {
 					title,

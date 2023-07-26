@@ -1,10 +1,10 @@
 import type { Actions, PageServerLoad } from './$types';
-import { prisma } from '$lib/server/prisma';
+import { prismaClient } from '$lib/server/prisma';
 import { fail } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async () => {
+export const load = async () => {
 	return {
-		teams: await prisma.team.findMany()
+		teams: await prismaClient.team.findMany()
 	};
 };
 
@@ -16,7 +16,7 @@ export const actions: Actions = {
 		};
 
 		try {
-			await prisma.team.create({
+			await prismaClient.team.create({
 				data: {
 					title,
 					content
@@ -38,7 +38,7 @@ export const actions: Actions = {
 		}
 
 		try {
-			await prisma.team.delete({
+			await prismaClient.team.delete({
 				where: {
 					id: Number(id)
 				}

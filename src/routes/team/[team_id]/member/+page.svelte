@@ -8,6 +8,7 @@
 </script>
 
 <div>
+	<h1>Create Member: TODO form</h1>
 	<label>
 		Member Name:
 		<input bind:value={member.name} required />
