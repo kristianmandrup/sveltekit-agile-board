@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { goto } from '$app/navigation';
 
 	let name = '';
@@ -17,21 +17,21 @@
 
 	async function getProjects(event: Event) {
 		await fetch('/api/projects', {
-			method: 'POST',
-			body: data
+			method: 'POST'
+			// body: data
 		});
 	}
 
-	function submit(event) {
+	async function submit(event: Event) {
 		// Here you would usually send the form data to your backend
 		console.log({ name, description, motivation, targetUsers });
-		const form = event.target as HTMLFormElement
-		const data = new FormData(form)
+		const form = event.target as HTMLFormElement;
+		const data = new FormData(form);
 
 		await fetch('/api/projects', {
 			method: 'POST',
 			body: data
-		})
+		});
 
 		// After submitting the form, redirect to the team creation page
 		goto('/team_creation');

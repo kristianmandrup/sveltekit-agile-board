@@ -13,16 +13,17 @@ datasource db {
 }
 
 model User {
-  id              String        @id @unique
+  id              String    @id @unique
   auth_session    Session[]
   auth_key        Key[]
   name            String
-  username        String        @unique
-  github_username String        @unique
-  role            Roles         @relation(fields: [roleId], references: [id])
+  username        String    @unique
+  github_username String    @unique
+  role            Roles     @relation(fields: [roleId], references: [id])
   roleId          Int
   projects        Project[]
-  UserProfile     UserProfile[]
+  UserProfile     Profile[]
+  Member          Member[]
 }
 
 model Session {
@@ -47,14 +48,14 @@ model Key {
 }
 
 model Skill {
-  id            Int          @id @default(autoincrement())
-  name          String       @unique
+  id            Int      @id @default(autoincrement())
+  name          String   @unique
   description   String
-  UserProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
+  profile       Profile? @relation(fields: [userProfileId], references: [id])
   userProfileId Int?
 }
 
-model UserProfile {
+model Profile {
   id              Int      @id @default(autoincrement())
   user            User     @relation(fields: [user_id], references: [id])
   description     String
@@ -66,6 +67,7 @@ model UserProfile {
   user_id         String
 
   @@index([user_id])
+  @@map("UserProfile")
 }
 
 model Roles {
@@ -99,15 +101,17 @@ model Team {
 }
 
 model Member {
-  id            Int           @id @default(autoincrement())
-  name          String
-  role          String
-  teamId        Int
-  team          Team          @relation(fields: [teamId], references: [id])
-  tasks         Task[]
-  UserProfile   UserProfile?  @relation(fields: [userProfileId], references: [id])
-  userProfileId Int?
-  Deliverable   Deliverable[]
+  id          Int           @id @default(autoincrement())
+  name        String
+  role        String
+  teamId      Int
+  team        Team          @relation(fields: [teamId], references: [id])
+  tasks       Task[]
+  user        User          @relation(fields: [userId], references: [id])
+  userId      String
+  Deliverable Deliverable[]
+  Profile     Profile?      @relation(fields: [profileId], references: [id])
+  profileId   Int?
 }
 
 model Task {

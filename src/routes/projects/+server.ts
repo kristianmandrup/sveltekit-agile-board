@@ -1,37 +1,37 @@
 import { json } from '@sveltejs/kit';
-import db from '$lib/database';
+import { prismaClient } from '$lib/server/prisma';
 import { error } from '@sveltejs/kit';
 // /api/newsletter GET
 
 // see https://codevoweb.com/how-to-build-a-simple-api-in-sveltekit/
-export async function GET({ params, headers, request, url }) {
+export async function GET({ params, url }: any) {
 	// verify token
 	const id = params.id || url.searchParams.get('id');
 	if (id) {
-		const project = await db.project.findUnique({
+		const project = await prismaClient.project.findUnique({
 			id
 		});
 		return json(project);
 	}
-	const projects = await db.project.findMany();
+	const projects = await prismaClient.project.findMany();
 	return json(projects);
 }
 
 // /api/newsletter POST
 
 export async function POST({ request }) {
-	const data = request.formData();
+	const data = await request.formData();
 	const name = data.get('name') as string;
 	const description = data.get('description') as string;
 
 	// Save project to DB
 	console.log({ name });
 	try {
-		await db.project.create({
+		await prismaClient.project.create({
 			data: {
 				name,
-				description,
-				slug: slugify(name)
+				description
+				// slug: slugify(name)
 			}
 		});
 
