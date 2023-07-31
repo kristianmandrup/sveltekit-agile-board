@@ -1,57 +1,61 @@
 import type { Actions } from './$types';
-import { prismaClient } from '$lib/server/prisma';
 import { fail } from '@sveltejs/kit';
+import { createTeam, deleteTeam, getTeams } from './crud';
+import { superValidate } from 'sveltekit-superforms/server';
+import { schema } from './schema';
 
 export const load = async () => {
+	const form = await superValidate(schema);
 	return {
-		teams: await prismaClient.team.findMany()
+		form,
+		teams: await getTeams()
 	};
 };
 
 export const actions: Actions = {
-	createTeam: async ({ request }) => {
-		const { title, content } = Object.fromEntries(await request.formData()) as {
-			title: string;
-			content: string;
-		};
+	default: async ({ request }) => {
+		const form = await superValidate(request, schema);
+		console.log('POST', form);
 
-		try {
-			await prismaClient.team.create({
-				data: {
-					title,
-					content
-				}
-			});
-		} catch (err) {
-			console.error(err);
-			return fail(500, { message: 'Could not create the team.' });
+		// Convenient validation check:
+		if (!form.valid) {
+			// Again, always return { form } and things will just work.
+			return fail(400, { form });
 		}
 
-		return {
-			status: 201
+		const data = Object.fromEntries(await request.formData()) as {
+			name: string;
+			description: string;
 		};
+		try {
+			const task = await createTeam({ data });
+			const form = await superValidate(task, schema);
+			// status: ok
+			return {
+				form
+			};
+		} catch (err) {
+			console.error(err);
+			return fail(500, { message: 'Could not create team' });
+		}
 	},
-	deleteTeam: async ({ url }) => {
+	deleteTeam: async ({ url, locals }: any) => {
 		const id = url.searchParams.get('id');
+		const { user } = locals;
 		if (!id) {
 			return fail(400, { message: 'Invalid request' });
 		}
-
 		try {
-			await prismaClient.team.delete({
-				where: {
-					id: Number(id)
-				}
-			});
+			await deleteTeam({ id, user });
+			return {
+				status: 200,
+				id
+			};
 		} catch (err) {
 			console.error(err);
 			return fail(500, {
-				message: 'Something went wrong deleting your team'
+				message: 'Error deleting your team'
 			});
 		}
-
-		return {
-			status: 200
-		};
 	}
 };

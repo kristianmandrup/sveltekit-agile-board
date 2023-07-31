@@ -1,6 +1,6 @@
 import type { Actions } from './$types';
 import { fail } from '@sveltejs/kit';
-import { createProject, deleteProject, getProjects } from './crud';
+import { createMember, deleteMember, getMembers } from './crud';
 import { superValidate } from 'sveltekit-superforms/server';
 import { schema } from './schema';
 
@@ -8,7 +8,7 @@ export const load = async () => {
 	const form = await superValidate(schema);
 	return {
 		form,
-		projects: await getProjects()
+		members: await getMembers()
 	};
 };
 
@@ -28,7 +28,7 @@ export const actions: Actions = {
 			description: string;
 		};
 		try {
-			const task = await createProject({ data });
+			const task = await createMember({ data });
 			const form = await superValidate(task, schema);
 			// status: ok
 			return {
@@ -36,17 +36,17 @@ export const actions: Actions = {
 			};
 		} catch (err) {
 			console.error(err);
-			return fail(500, { message: 'Could not create project' });
+			return fail(500, { message: 'Could not create member' });
 		}
 	},
-	deleteProject: async ({ url, locals }: any) => {
+	deleteMember: async ({ url, locals }: any) => {
 		const id = url.searchParams.get('id');
 		const { user } = locals;
 		if (!id) {
 			return fail(400, { message: 'Invalid request' });
 		}
 		try {
-			await deleteProject({ id, user });
+			await deleteMember({ id, user });
 			return {
 				status: 200,
 				id
@@ -54,7 +54,7 @@ export const actions: Actions = {
 		} catch (err) {
 			console.error(err);
 			return fail(500, {
-				message: 'Error deleting your project'
+				message: 'Error deleting your member'
 			});
 		}
 	}

@@ -25,7 +25,7 @@ const schema = z.object({
 });
 
 export const load = async ({ params }) => {
-	const id = params.task_id;
+	const id = params.id;
 	const task = await getTask({ id });
 
 	if (!task) throw fail(404, { message: 'Not found' });
