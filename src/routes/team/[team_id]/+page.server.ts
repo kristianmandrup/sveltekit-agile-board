@@ -1,8 +1,8 @@
-import type { Actions, PageServerLoad } from './$types';
+import type { Actions } from './$types';
 import { prismaClient } from '$lib/server/prisma';
 import { error, fail } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load = async ({ params }) => {
 	const getTeam = async () => {
 		const team = await prismaClient.team.findUnique({
 			where: {

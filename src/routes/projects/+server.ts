@@ -1,43 +1,38 @@
 import { json } from '@sveltejs/kit';
 import { prismaClient } from '$lib/server/prisma';
-import { error } from '@sveltejs/kit';
-// /api/newsletter GET
+import { createFilters } from '$lib/search/filters';
+import { fail } from '@sveltejs/kit';
+import { createProject, getProjects } from './crud.js';
 
 // see https://codevoweb.com/how-to-build-a-simple-api-in-sveltekit/
-export async function GET({ params, url }: any) {
-	// verify token
-	const id = params.id || url.searchParams.get('id');
-	if (id) {
-		const project = await prismaClient.project.findUnique({
-			id
-		});
-		return json(project);
-	}
-	const projects = await prismaClient.project.findMany();
+export async function GET({ url }) {
+	// TODO verify via lucia auth
+	const filters = createFilters(url.searchParams);
+	const projects = await getProjects({
+		...filters
+	});
 	return json(projects);
 }
 
 // /api/newsletter POST
 
 export async function POST({ request }) {
-	const data = await request.formData();
-	const name = data.get('name') as string;
-	const description = data.get('description') as string;
+	const form = await request.formData();
+	const name = form.get('name') as string;
+	const description = form.get('description') as string;
+	const data = {
+		name,
+		description
+	};
 
 	// Save project to DB
-	console.log({ name });
 	try {
-		await prismaClient.project.create({
-			data: {
-				name,
-				description
-				// slug: slugify(name)
-			}
+		await createProject({
+			data
 		});
-
 		// return success
 		return json({ success: true });
 	} catch (err) {
-		throw error(400, { message: 'Unable to save project' });
+		throw fail(400, { message: 'Unable to save project' });
 	}
 }

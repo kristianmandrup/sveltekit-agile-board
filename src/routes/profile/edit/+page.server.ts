@@ -5,8 +5,10 @@ import { superValidate } from 'sveltekit-superforms/server';
 import { z } from 'zod';
 
 const schema = z.object({
-	name: z.string().default('Hello world!'),
-	email: z.string().email()
+	name: z.string(),
+	sex: z.string(),
+	role: z.string(),
+	description: z.string()
 });
 
 const upsertProfile = async ({ profile, user, description, role, sex }: any) => {
@@ -23,7 +25,9 @@ const upsertProfile = async ({ profile, user, description, role, sex }: any) => 
 
 const getProfile = async ({ user }: any) =>
 	await prismaClient.profile.findUnique({
-		userId: user.id
+		where: {
+			userId: user.id
+		}
 	});
 
 export const load = async ({ locals }: any) => {

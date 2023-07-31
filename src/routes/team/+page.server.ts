@@ -1,4 +1,4 @@
-import type { Actions, PageServerLoad } from './$types';
+import type { Actions } from './$types';
 import { prismaClient } from '$lib/server/prisma';
 import { fail } from '@sveltejs/kit';
 

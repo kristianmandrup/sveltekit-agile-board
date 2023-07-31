@@ -1,15 +1,20 @@
 <script lang="ts">
-	// import type { PageData } from './$types';
+	import { superForm } from 'sveltekit-superforms/client';
 
-	export let data: any; //: PageData;
-	$: ({ task } = data);
+	export let data;
+
+	// Client API:
+	const { form } = superForm(data.form);
 </script>
 
-<form action="?/updateTask" method="POST">
-	<h3>Editing: {task.title}</h3>
-	<label for="title"> Title </label>
-	<input type="text" id="title" name="title" value={task.title} />
-	<label for="title"> Title </label>
-	<textarea id="content" name="content" rows={5} value={task.content} />
-	<button type="submit">Update Task</button>
+<form method="POST">
+	<div>
+		<label for="name">Name</label>
+		<input type="text" id="name" name="name" bind:value={$form.title} />
+	</div>
+	<div>
+		<label for="description">Description</label>
+		<input id="description" name="description" type="text" bind:value={$form.description} />
+	</div>
+	<button type="submit">Update</button>
 </form>

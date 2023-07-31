@@ -1,69 +1,39 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { superForm } from 'sveltekit-superforms/client';
 
-	let name = '';
-	let description = '';
-	let motivation = '';
-	let targetUsers = '';
+	export let data;
 
-	let projects = [
-		{
-			name: 'Project A'
-		},
-		{
-			name: 'Project B'
-		}
-	];
+	// Client API:
+	const { form } = superForm(data.form);
 
-	async function getProjects(event: Event) {
-		await fetch('/api/projects', {
-			method: 'POST'
-			// body: data
-		});
-	}
-
-	async function submit(event: Event) {
-		// Here you would usually send the form data to your backend
-		console.log({ name, description, motivation, targetUsers });
-		const form = event.target as HTMLFormElement;
-		const data = new FormData(form);
-
-		await fetch('/api/projects', {
-			method: 'POST',
-			body: data
-		});
-
-		// After submitting the form, redirect to the team creation page
-		goto('/team_creation');
-	}
+	$: ({ projects } = data);
 </script>
 
 <layout>
-	<div class="container">
-		{#each projects as project}
-			<div class="item">
-				{project.name}
-			</div>
-		{/each}
+	<div class="grid">
+		<div>
+			{#each projects as project}
+				<div>
+					<header>{project.name}</header>
+					<p>
+						{project.description}
+					</p>
+					<form action="?/deleteProject&id={project.id}" method="POST">
+						<button type="submit" class="outline secondary">Delete Project</button>
+					</form>
+					<a href="/{project.id}" role="button" class="outline constrast" style="width: 100%;"
+						>Edit Project</a
+					>
+				</div>
+			{/each}
+		</div>
+		<form action="?/createProject" method="POST">
+			<h3>New Project</h3>
+			<label for="title">Project Name </label>
+			<input type="text" id="name" name="name" bind:value={$form.name} />
+			<label for="description"> Description </label>
+			<textarea id="description" name="description" rows={5} bind:value={$form.description} />
+			<button type="submit">Add Project</button>
+		</form>
 	</div>
-
-	<form on:submit|preventDefault={submit}>
-		<label>
-			Project Name:
-			<input bind:value={name} required />
-		</label>
-		<label>
-			Description:
-			<textarea bind:value={description} required />
-		</label>
-		<label>
-			Motivation:
-			<textarea bind:value={motivation} required />
-		</label>
-		<label>
-			Target Users:
-			<input bind:value={targetUsers} required />
-		</label>
-		<button type="submit">Create Project</button>
-	</form>
 </layout>

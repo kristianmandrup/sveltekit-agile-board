@@ -2,13 +2,15 @@ import { fail, redirect } from '@sveltejs/kit';
 import { prismaClient } from '$lib/server/prisma';
 
 export const load = async ({ locals }: any) => {
-	const user = locals.user;
+	const { user } = locals;
 	if (!user) {
 		throw redirect(303, '/');
 	}
 
 	const profile = await prismaClient.profile.findUnique({
-		userId: user.id
+		where: {
+			userId: user.id
+		}
 	});
 
 	if (!profile) throw fail(404, { message: 'Not found' });
@@ -25,15 +27,26 @@ export const actions = {
 		const website = formData.get('website') as string;
 		const avatarUrl = formData.get('avatarUrl') as string;
 
-		const session = locals.user;
+		const { user } = locals;
 
-		const { error } = await prismaClient.profile.upsert({
-			id: session?.user.id,
+		const data = {
 			full_name: fullName,
 			username,
 			website,
 			avatar_url: avatarUrl,
 			updated_at: new Date()
+		};
+
+		const { error } = await prismaClient.profile.upsert({
+			where: {
+				id: user?.id
+			},
+			update: {
+				...data
+			},
+			create: {
+				...data
+			}
 		});
 
 		if (error) {

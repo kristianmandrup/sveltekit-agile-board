@@ -1,14 +1,20 @@
 import { fail } from '@sveltejs/kit';
 import { prismaClient } from '$lib/server/prisma';
 
-export const load = async ({ locals }) => {
-	const user = locals.user;
-	const profile: any = await prismaClient.profile.findUnique({
-		userId: user.id
+const getProfile = async ({ user }: any) =>
+	await prismaClient.profile.findUnique({
+		where: {
+			userId: user.id
+		}
 	});
 
-	if (!profile) throw fail(404, { message: 'Not found' });
-
-	// Always return { form } in load and form actions.
-	return profile;
+export const load = async ({ locals }) => {
+	const user = locals.user;
+	try {
+		const profile = await getProfile({ user });
+		return profile;
+	} catch (err) {
+		console.error(err);
+		return fail(500, { message: 'Could not load the profile' });
+	}
 };
