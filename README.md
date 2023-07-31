@@ -1,8 +1,16 @@
-# create-svelte
+# Agile board
+
+Agile board for GPT team in Sveltekit 1.x
+
+### Generate Zod schemas from Prisma schema
+
+`npx prisma generate`
+
+Schemas generated in `prisma/generated/schemas`
+
+## Development
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
-
-## Creating a project
 
 If you're seeing this, you've probably already done this step. Congrats!
 
