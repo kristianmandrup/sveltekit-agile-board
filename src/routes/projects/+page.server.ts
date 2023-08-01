@@ -20,7 +20,7 @@ export const actions: Actions = {
 		// Convenient validation check:
 		if (!form.valid) {
 			// Again, always return { form } and things will just work.
-			return fail(400, { form });
+			return fail(400, { form, valid: false });
 		}
 
 		const data = Object.fromEntries(await request.formData()) as {
@@ -32,7 +32,8 @@ export const actions: Actions = {
 			const form = await superValidate(task, schema);
 			// status: ok
 			return {
-				form
+				form,
+				valid: form.valid
 			};
 		} catch (err) {
 			console.error(err);

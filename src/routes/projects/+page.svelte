@@ -1,10 +1,28 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms/client';
+	import DeleteButton from '$lib/components/buttons/DeleteButton.svelte';
+	import EditButton from '$lib/components/buttons/EditButton.svelte';
+	import Builder from '$lib/components/form/Builder.svelte';
+	import type { FieldType } from '$lib/components/form/types';
+	import TextDecription from '$lib/components/display/TextDecription.svelte';
+	import Title from '$lib/components/display/Title.svelte';
 
 	export let data;
 
 	// Client API:
-	const { form } = superForm(data.form);
+	const { posted, enhance, form, errors, constraints, capture, restore } = superForm(data.form);
+	export const snapshot = { capture, restore };
+
+	const formFields = [
+		{
+			id: 'name',
+			type: 'text' as FieldType
+		},
+		{
+			id: 'description',
+			type: 'textarea' as FieldType
+		}
+	];
 
 	$: ({ projects } = data);
 </script>
@@ -14,25 +32,16 @@
 		<div>
 			{#each projects as project}
 				<div>
-					<header>{project.name}</header>
-					<p>
-						{project.description}
-					</p>
-					<form action="?/deleteProject&id={project.id}" method="POST">
-						<button type="submit" class="outline secondary">Delete Project</button>
-					</form>
-					<a href="/{project.id}" role="button" class="outline constrast" style="width: 100%;"
-						>Edit Project</a
-					>
+					<Title title={project.name} />
+					<TextDecription text={project.description} />
+					<DeleteButton action="deleteProject" label="Delete" id={project.id} />
+					<EditButton route="projects" id={project.id} label="Edit" />
 				</div>
 			{/each}
 		</div>
-		<form action="?/createProject" method="POST">
+		<form method="POST" use:enhance>
 			<h3>New Project</h3>
-			<label for="title">Project Name </label>
-			<input type="text" id="name" name="name" bind:value={$form.name} />
-			<label for="description"> Description </label>
-			<textarea id="description" name="description" rows={5} bind:value={$form.description} />
+			<Builder {posted} {formFields} values={$form} errors={$errors} constraints={$constraints} />
 			<button type="submit">Add Project</button>
 		</form>
 	</div>
