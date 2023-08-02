@@ -1,20 +1,26 @@
 <script lang="ts">
+	import Builder from '$lib/components/form/Builder.svelte';
+	import type { FieldType } from '$lib/components/form/types.js';
 	import { superForm } from 'sveltekit-superforms/client';
 
 	export let data;
 
-	// Client API:
-	const { form } = superForm(data.form);
+	const formFields = [
+		{
+			id: 'name',
+			type: 'text' as FieldType
+		},
+		{
+			id: 'description',
+			type: 'textarea' as FieldType
+		}
+	];
+
+	const { form, posted, enhance, errors, constraints, capture, restore } = superForm(data.form);
+	export const snapshot = { capture, restore };
 </script>
 
 <form method="POST">
-	<div>
-		<label for="name">Title</label>
-		<input type="text" id="name" name="name" bind:value={$form.name} />
-	</div>
-	<div>
-		<label for="description">Description</label>
-		<input id="description" name="description" type="text" bind:value={$form.description} />
-	</div>
+	<Builder {posted} {formFields} values={$form} errors={$errors} constraints={$constraints} />
 	<button type="submit">Update</button>
 </form>

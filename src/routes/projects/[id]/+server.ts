@@ -19,7 +19,7 @@ export async function GET({ params, url }: any) {
 
 // /api/newsletter POST
 
-export async function POST({ request }) {
+export async function POST({ request }: any) {
 	const data = await request.formData();
 	const name = data.get('name') as string;
 	const description = data.get('description') as string;

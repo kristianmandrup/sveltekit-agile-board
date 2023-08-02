@@ -1,7 +1,6 @@
 <script lang="ts">
-	import type { ActionData } from './$types';
-
-	export let form: ActionData;
+	// import type { ActionData } from './$types';
+	// export let form: ActionData;
 </script>
 
 <h1>Login</h1>

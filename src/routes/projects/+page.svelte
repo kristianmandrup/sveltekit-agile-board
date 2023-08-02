@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms/client';
+	import type { FieldType } from '$lib/components/form/types';
 	import DeleteButton from '$lib/components/buttons/DeleteButton.svelte';
 	import EditButton from '$lib/components/buttons/EditButton.svelte';
 	import Builder from '$lib/components/form/Builder.svelte';
-	import type { FieldType } from '$lib/components/form/types';
 	import TextDecription from '$lib/components/display/TextDecription.svelte';
 	import Title from '$lib/components/display/Title.svelte';
 
