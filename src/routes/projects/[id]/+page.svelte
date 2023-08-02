@@ -20,7 +20,7 @@
 	export const snapshot = { capture, restore };
 </script>
 
-<form method="POST">
+<form method="PUT" use:enhance>
 	<Builder {posted} {formFields} values={$form} errors={$errors} constraints={$constraints} />
 	<button type="submit">Update</button>
 </form>

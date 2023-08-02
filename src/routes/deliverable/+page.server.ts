@@ -1,6 +1,6 @@
 import type { Actions } from './$types';
 import { fail } from '@sveltejs/kit';
-import { createTask, deleteTask, getTasks } from './crud';
+import { createDeliverable, deleteDeliverable, getDeliverables } from './crud';
 import { superValidate } from 'sveltekit-superforms/server';
 import { schema } from './schema';
 
@@ -8,7 +8,7 @@ export const load = async () => {
 	const form = await superValidate(schema);
 	return {
 		form,
-		tasks: await getTasks()
+		deliverables: await getDeliverables()
 	};
 };
 
@@ -28,7 +28,7 @@ export const actions: Actions = {
 			description: string;
 		};
 		try {
-			const task = await createTask({ data });
+			const task = await createDeliverable({ data });
 			const form = await superValidate(task, schema);
 			// status: ok
 			return {
@@ -37,17 +37,17 @@ export const actions: Actions = {
 			};
 		} catch (err) {
 			console.error(err);
-			return fail(500, { message: 'Could not create task' });
+			return fail(500, { message: 'Could not create deliverable' });
 		}
 	},
-	deleteTask: async ({ url, locals }: any) => {
+	deleteDeliverable: async ({ url, locals }: any) => {
 		const id = url.searchParams.get('id');
 		const { user } = locals;
 		if (!id) {
 			return fail(400, { message: 'Invalid request' });
 		}
 		try {
-			await deleteTask({ id, user });
+			await deleteDeliverable({ id, user });
 			return {
 				status: 200,
 				id
@@ -55,7 +55,7 @@ export const actions: Actions = {
 		} catch (err) {
 			console.error(err);
 			return fail(500, {
-				message: 'Error deleting your task'
+				message: 'Error deleting your deliverable'
 			});
 		}
 	}

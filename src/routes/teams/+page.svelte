@@ -38,7 +38,7 @@
 			</article>
 		{/each}
 	</div>
-	<form action="?/createTeam" method="POST">
+	<form action="?/createTeam" method="POST" use:enhance>
 		<h3>New Team</h3>
 		<Builder {posted} {formFields} values={$form} errors={$errors} constraints={$constraints} />
 		<button type="submit">Add Team</button>
