@@ -35,6 +35,6 @@
 <layout>
 	<div class="grid">
 		<AddItem {props} {entity} />
-		<List items={projects} />
+		<List items={projects} {entity} />
 	</div>
 </layout>

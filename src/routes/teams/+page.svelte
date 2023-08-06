@@ -1,11 +1,8 @@
 <script lang="ts">
 	import type { FieldType } from '$lib/components/form/types.js';
 	import { superForm } from 'sveltekit-superforms/client';
-	import Title from '$lib/components/display/Title.svelte';
-	import EditButton from '$lib/components/buttons/EditButton.svelte';
-	import DeleteButton from '$lib/components/buttons/DeleteButton.svelte';
-	import TextDecription from '$lib/components/display/TextDescription.svelte';
-	import Builder from '$lib/components/form/Builder.svelte';
+	import AddItem from '$lib/components/AddItem.svelte';
+	import List from '$lib/components/List.svelte';
 
 	export let data;
 
@@ -23,24 +20,22 @@
 	const { form, posted, enhance, errors, constraints, capture, restore } = superForm(data.form);
 	export const snapshot = { capture, restore };
 
+	const entity = 'team';
+
+	let props = {
+		formFields,
+		posted,
+		form,
+		errors,
+		constraints
+	};
+
 	$: ({ teams } = data);
 </script>
 
-<div class="grid">
-	<div>
-		<h2>Teams:</h2>
-		{#each teams as team}
-			<article>
-				<Title title={team.name} />
-				<TextDecription text={team.description} />
-				<DeleteButton action="deleteTeam" label="Delete" id={team.id} />
-				<EditButton route="team" id={team.id} label="Edit" />
-			</article>
-		{/each}
+<layout>
+	<div class="grid">
+		<AddItem {props} {entity} />
+		<List items={teams} {entity} />
 	</div>
-	<form action="?/createTeam" method="POST" use:enhance>
-		<h3>New Team</h3>
-		<Builder {posted} {formFields} values={$form} errors={$errors} constraints={$constraints} />
-		<button type="submit">Add Team</button>
-	</form>
-</div>
+</layout>

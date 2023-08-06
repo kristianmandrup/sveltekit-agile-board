@@ -1,6 +1,6 @@
 <script lang="ts">
 	import List from '$lib/components/List.svelte';
-	const entity = 'project';
+	export let entity: string;
 	export let items: any[] = [
 		{
 			name: 'x',

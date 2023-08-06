@@ -1,11 +1,8 @@
 <script lang="ts">
+	import AddItem from '$lib/components/AddItem.svelte';
+	import List from '$lib/components/List.svelte';
 	import type { FieldType } from '$lib/components/form/types.js';
 	import { superForm } from 'sveltekit-superforms/client';
-	import Title from '$lib/components/display/Title.svelte';
-	import EditButton from './../../lib/components/buttons/EditButton.svelte';
-	import DeleteButton from '$lib/components/buttons/DeleteButton.svelte';
-	import TextDecription from '$lib/components/display/TextDescription.svelte';
-	import Builder from '$lib/components/form/Builder.svelte';
 
 	export let data;
 
@@ -23,24 +20,22 @@
 	const { form, posted, enhance, errors, constraints, capture, restore } = superForm(data.form);
 	export const snapshot = { capture, restore };
 
+	const entity = 'task';
+
+	let props = {
+		formFields,
+		posted,
+		form,
+		errors,
+		constraints
+	};
+
 	$: ({ tasks } = data);
 </script>
 
-<div class="grid">
-	<div>
-		<h2>Tasks:</h2>
-		{#each tasks as task}
-			<article>
-				<Title title={task.name} />
-				<TextDecription text={task.description} />
-				<DeleteButton action="deleteTask" label="Delete" id={task.id} />
-				<EditButton route="task" id={task.id} label="Edit" />
-			</article>
-		{/each}
+<layout>
+	<div class="grid">
+		<AddItem {props} {entity} />
+		<List items={tasks} {entity} />
 	</div>
-	<form action="?/createTask" method="POST" use:enhance>
-		<h3>New Task</h3>
-		<Builder {posted} {formFields} values={$form} errors={$errors} constraints={$constraints} />
-		<button type="submit">Add Task</button>
-	</form>
-</div>
+</layout>
