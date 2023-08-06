@@ -1,7 +1,15 @@
 <script lang="ts">
 	import Board from '$lib/Board.svelte';
+	import FrontPage from './FrontPage.svelte';
+	import LoggedIn from './LoggedIn.svelte';
+
+	let loggedIn = false;
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-<Board />
+<FrontPage>
+	{#if loggedIn}
+		<Board />
+	{:else}
+		<LoggedIn />
+	{/if}
+</FrontPage>

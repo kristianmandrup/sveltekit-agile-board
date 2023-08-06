@@ -1,9 +1,10 @@
 <script lang="ts">
+	import { Button } from 'flowbite-svelte';
 	export let id: string;
 	export let action: string;
 	export let label: string = 'Delete';
 </script>
 
 <form action="?/${action}&id={id}" method="POST">
-	<button type="submit" class="outline secondary">${label}</button>
+	<Button type="submit" class="outline secondary">${label}</Button>
 </form>

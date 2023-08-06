@@ -4,8 +4,9 @@
 	export let id: string;
 	export let label: string;
 	export let props = {};
+	export let expand: boolean = true;
 </script>
 
-<div class="mb-6">
+<div class:mb-6={expand}>
 	<Toggle {id} {...props} {checked}>${label}</Toggle>
 </div>

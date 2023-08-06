@@ -2,7 +2,7 @@
 	import type { FieldType } from '$lib/components/form/types.js';
 	import { superForm } from 'sveltekit-superforms/client';
 	import Title from '$lib/components/display/Title.svelte';
-	import EditButton from './../../lib/components/buttons/EditButton.svelte';
+	import EditButton from '$lib/components/buttons/EditButton.svelte';
 	import DeleteButton from '$lib/components/buttons/DeleteButton.svelte';
 	import TextDecription from '$lib/components/display/TextDecription.svelte';
 	import Builder from '$lib/components/form/Builder.svelte';

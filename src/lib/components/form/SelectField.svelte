@@ -14,9 +14,10 @@
 	let errorColor = error && 'red';
 	let validColor = valid && 'green';
 	let statusColor: any = errorColor || validColor || '';
+	export let expand: boolean = true;
 </script>
 
-<div class="mb-6">
+<div class:mb-6={expand}>
 	<Label for={id} class="block mb-2">${label}</Label>
 	<Select
 		{id}
