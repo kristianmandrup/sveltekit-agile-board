@@ -1,10 +1,12 @@
 <script lang="ts">
-	import Item from './Item.svelte';
-	export let items: any[] = [];
+	import List from '$lib/components/List.svelte';
+	const entity = 'project';
+	export let items: any[] = [
+		{
+			name: 'x',
+			description: 'x'
+		}
+	];
 </script>
 
-<div>
-	{#each items as item}
-		<Item {...item} />
-	{/each}
-</div>
+<List {items} {entity} />

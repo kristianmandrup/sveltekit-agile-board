@@ -4,7 +4,7 @@
 	import Title from '$lib/components/display/Title.svelte';
 	import EditButton from './../../lib/components/buttons/EditButton.svelte';
 	import DeleteButton from '$lib/components/buttons/DeleteButton.svelte';
-	import TextDecription from '$lib/components/display/TextDecription.svelte';
+	import TextDecription from '$lib/components/display/TextDescription.svelte';
 	import Builder from '$lib/components/form/Builder.svelte';
 
 	export let data;

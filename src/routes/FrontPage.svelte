@@ -23,10 +23,10 @@
 			<img
 				src="/images/flowbite-svelte-icon-logo.svg"
 				class="mr-3 h-6 sm:h-9"
-				alt="Flowbite Logo"
+				alt="GPT-Team Logo"
 			/>
 			<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-				Flowbite
+				GPT-Team
 			</span>
 		</NavBrand>
 		<div class="flex md:order-2">

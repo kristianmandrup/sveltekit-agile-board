@@ -1,11 +1,8 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms/client';
 	import type { FieldType } from '$lib/components/form/types';
-	import Builder from '$lib/components/form/Builder.svelte';
 	import List from './List.svelte';
-	import New from './New.svelte';
-	import AddItem from './AddItem.svelte';
-
+	import AddItem from '$lib/components/AddItem.svelte';
 	export let data;
 
 	// Client API:
@@ -22,6 +19,8 @@
 			type: 'textarea' as FieldType
 		}
 	];
+	const entity = 'project';
+
 	let props = {
 		formFields,
 		posted,
@@ -35,7 +34,7 @@
 
 <layout>
 	<div class="grid">
-		<AddItem {props} />
+		<AddItem {props} {entity} />
 		<List items={projects} />
 	</div>
 </layout>

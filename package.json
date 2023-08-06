@@ -48,6 +48,7 @@
 		"flowbite-svelte": "^0.40.1",
 		"iconify-icon": "^1.0.8",
 		"lucia": "^2.0.0",
+		"pluralize-esm": "^9.0.5",
 		"prisma-zod-generator": "^0.8.13",
 		"svelte-chartjs": "^3.1.2",
 		"svelte-headlessui": "^0.0.20"
