@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Board from '$lib/Board.svelte';
-	import LoginButton from '$lib/components/session/LoginButton.svelte';
+	import List from './projects/List.svelte';
 	let hasProject = false;
 </script>
 
 {#if hasProject}
 	<Board />
 {:else}
-	<DisplayProjects />
+	<List entity="project" />
 {/if}
