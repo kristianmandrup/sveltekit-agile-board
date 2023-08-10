@@ -6,7 +6,7 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			auth: import('lucia-auth').AuthRequest;
+			auth: import('lucia').AuthRequest;
 			user: any;
 		}
 		// interface PageData {}
@@ -24,7 +24,10 @@ declare global {
 			github_username: string;
 		};
 		type DatabaseSessionAttributes = {
+			username: string;
+			name: string;
 			role: string;
+			github_username: string;
 		};
 	}
 }
