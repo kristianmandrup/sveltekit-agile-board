@@ -16,9 +16,9 @@
 
 <div class="relative px-8">
 	<Navbar />
-	<Sidebar />
+	<!-- <Sidebar /> -->
 	<div style="height:300px;" class="overflow-scroll pb-16">
 		<slot />
 	</div>
-	<Footer />
+	<!-- <Footer /> -->
 </div>
