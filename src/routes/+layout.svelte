@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../app.postcss';
 	import 'iconify-icon';
 	import '@picocss/pico';
 	import Navbar from './Navbar.svelte';
