@@ -1,14 +1,15 @@
 <script lang="ts">
+	import Welcome from '$lib/components/hero/Welcome.svelte';
 	import LoginButton from '$lib/components/session/LoginButton.svelte';
 	import RegisterButton from '$lib/components/session/RegisterButton.svelte';
+	import Breadcrumb from './Breadcrumb.svelte';
 </script>
 
-<p>
-	Welcome to GPT-Team, where you can have teams of AI-engineering teams assist you to deliver your
-	IT project. Please create an account or Login.
-</p>
-
-<div>
-	<LoginButton />
-	<RegisterButton />
+<div class="pt-24">
+	<Breadcrumb />
+	<Welcome />
+	<div class="pt-24 text-center">
+		<LoginButton />
+		<RegisterButton />
+	</div>
 </div>

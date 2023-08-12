@@ -27,8 +27,8 @@
 		"eslint-plugin-svelte": "^2.30.0",
 		"postcss": "^8.4.24",
 		"postcss-load-config": "^4.0.1",
-		"prettier": "^2.8.8",
-		"prettier-plugin-svelte": "^2.10.1",
+		"prettier": "^3.0.1",
+		"prettier-plugin-svelte": "^3.0.3",
 		"prisma": "^4.11.0",
 		"svelte": "^3.45.0",
 		"svelte-check": "^3.4.3",
@@ -45,16 +45,19 @@
 		"@lucia-auth/adapter-prisma": "^3.0.0",
 		"@lucia-auth/sveltekit": "^0.6.11",
 		"@picocss/pico": "^1.5.10",
+		"@popperjs/core": "^2.11.8",
 		"@prisma/client": "^4.11.0",
 		"bcrypt": "^5.1.0",
 		"chart.js": "^4.3.0",
-		"flowbite": "^1.7.0",
-		"flowbite-svelte": "^0.40.1",
+		"flowbite": "^1.8.1",
+		"flowbite-svelte": "^0.40.2",
+		"flowbite-svelte-icons": "^0.3.6",
 		"iconify-icon": "^1.0.8",
 		"lucia": "^2.0.0",
 		"pluralize-esm": "^9.0.5",
 		"prisma-zod-generator": "^0.8.13",
 		"svelte-chartjs": "^3.1.2",
-		"svelte-headlessui": "^0.0.20"
+		"svelte-headlessui": "^0.0.20",
+		"tailwind-merge": "^1.14.0"
 	}
 }
