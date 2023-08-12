@@ -48,7 +48,7 @@
 		"@popperjs/core": "^2.11.8",
 		"@prisma/client": "^4.11.0",
 		"bcrypt": "^5.1.0",
-		"chart.js": "^4.3.0",
+		"chart.js": "^4.3.3",
 		"flowbite": "^1.8.1",
 		"flowbite-svelte": "^0.40.2",
 		"flowbite-svelte-icons": "^0.3.6",
@@ -57,7 +57,6 @@
 		"pluralize-esm": "^9.0.5",
 		"prisma-zod-generator": "^0.8.13",
 		"svelte-chartjs": "^3.1.2",
-		"svelte-headlessui": "^0.0.20",
 		"tailwind-merge": "^1.14.0"
 	}
 }
