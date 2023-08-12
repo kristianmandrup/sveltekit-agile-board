@@ -1,5 +1,5 @@
 <script>
-	import BarChart from '$lib/components/charts/BarChart.svelte';
+	import BarChart from '$lib/components/charts/bar/BarChart.svelte';
 </script>
 
 <div class="pt-12">
