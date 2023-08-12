@@ -6,7 +6,6 @@
 </script>
 
 <div class="pt-24">
-	<Breadcrumb />
 	<Welcome />
 	<div class="pt-24 text-center">
 		<LoginButton />
