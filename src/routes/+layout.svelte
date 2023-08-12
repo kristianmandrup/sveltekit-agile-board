@@ -18,7 +18,7 @@
 
 <div class="relative px-8">
 	<Navbar />
-	<div style="height:600px;" class="overflow-scroll pb-16">
+	<div style="height:800px;" class="overflow-scroll pb-16">
 		<Sidebar />
 		<div class="p-4 sm:ml-64">
 			<Breadcrumb />
